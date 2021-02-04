@@ -1,24 +1,24 @@
-import logo from './logo.svg';
-import './App.css';
+/** @jsxRuntime classic */
+/** @jsx jsx */
+import { css, jsx } from '@emotion/react'
+import './styles/App.css';
+import AppHeader from './components/Header';
+import PokemonList from './components/PokemonList';
+import PokemonDetail from './components/PokemonDetail';
+import { Container } from '@material-ui/core';
+import { BrowserRouter, Switch, Route } from 'react-router-dom';
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <BrowserRouter>
+      <AppHeader />
+      <Container css={css`margin-top:100px`}>
+        <Switch>
+          <Route path='/' component={PokemonList} exact={true}/>
+          <Route path='/detail' component={PokemonDetail}/>
+        </Switch>
+      </Container>
+    </BrowserRouter>
   );
 }
 
