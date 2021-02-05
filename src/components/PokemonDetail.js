@@ -114,7 +114,7 @@ const PokemonDetail = (props) => {
         <Container>
               <Grid container spacing={3}>
                   <Grid item xs={12} sm={2} align="center">
-                      <img alt={name} src={img} css={css`width:100px`} />
+                      <img alt={name} src={img} width="100" height="100"/>
                   </Grid>
                   <Grid item xs={12} sm={10} css={css`@media (max-width: 420px) {
                       text-align: center;

@@ -11,7 +11,6 @@ import {
     Table,
     TableBody,
     TableCell,
-    TableContainer,
     TableRow,
     Paper
 } from '@material-ui/core';
@@ -29,13 +28,12 @@ const MyPokemonList = () => {
                     <CardContent>
                         <Grid container spacing={3}>
                             <Grid item xs={12} sm={12} md={4} align="center">
-                                <img alt={poke.name} src={poke.image} css={css`width:100px`} />
+                                <img alt={poke.name} src={poke.image} width="100" height="100" />
                                 <Typography variant="h4" component="p">{poke.name}</Typography>
                             </Grid>
                             <Grid item xs={12} sm={12} md={5}>
                                 <Typography variant="h5" component="p">Names</Typography>
-                                <TableContainer component={Paper} css={css`margin-top:20px;`}>
-                                    <Table aria-label="simple table">
+                                    <Table component={Paper} css={css`margin-top:20px`}>
                                         <TableBody>
                                             {
                                                 poke.nickname.split(',').map((nickname) => {
@@ -50,7 +48,6 @@ const MyPokemonList = () => {
                                             })}
                                         </TableBody>
                                     </Table>
-                                </TableContainer>
                             </Grid>
                         </Grid>
                     </CardContent>

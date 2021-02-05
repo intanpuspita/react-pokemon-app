@@ -28,7 +28,7 @@ const Pokemon = (props) => {
             <CardContent>
                 <Grid container spacing={3}>
                     <Grid item xs={12} sm={2} align="center">
-                    <img src={pokemon.image} alt={pokemon.image}/>
+                    <img src={pokemon.image} alt={pokemon.image} width="100" height="100"/>
                     </Grid>
                     <Grid item xs={12} sm={10} css={css`@media (max-width: 420px) {
                         text-align: center;
