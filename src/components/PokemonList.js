@@ -1,6 +1,6 @@
 /** @jsxRuntime classic */
 /** @jsx jsx */
-import { jsx } from '@emotion/react'
+import { css, jsx } from '@emotion/react'
 import {gql, useQuery} from '@apollo/client';
 import Pokemon from './Pokemon';
 import Footer from './Footer';
@@ -42,10 +42,12 @@ const PokemonList = (props) => {
               (loading && <Typography variant="h6" component="p">Retrieving data...</Typography>) ||
               (error && <Typography variant="h6" component="p">Error connect to the the API.</Typography>) ||
               (data && data.pokemons.results.length > 0 &&
-                <div>
+                <Container>
+                  <Container css={css`margin-bottom: 70px;`}>
                   {data.pokemons.results.map((poke) => <Pokemon key={poke.name} ownedPokemon={ownedPokemon} pokemon={poke}/>)}
+                  </Container>
                   <Footer prev={data.pokemons.previous ? offset-limit : undefined} next={data.pokemons.next ? offset+limit : undefined}/>)
-                </div>
+                </Container>
               )
           }
         </Container>
