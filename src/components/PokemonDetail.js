@@ -42,7 +42,7 @@ const catchPokemon = () => {
     if(Math.floor((Math.random() * 2)) === 1) {
       return true;
     } else {
-      alert('Oops.. Try again!');
+      alert('Oops.. Failed to catch pokemon!');
       return false;
     }
 }
