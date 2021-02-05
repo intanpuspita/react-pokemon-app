@@ -21,7 +21,7 @@ const MyPokemonList = () => {
     const { state, dispatch } = useAppState();
     return(
         <Container>
-            <Typography variant="h2" component="p">My Pokemon</Typography>
+            <Typography variant="h3" component="p">My Pokemon</Typography>
             <Container css={css`margin-top: 30px`}>
             {(state.ownedPokemon === undefined || state.ownedPokemon.length === 0) && <Typography variant="h5" component="p">Your don't have any pokemon.</Typography> }
             {state.ownedPokemon.map((poke) => 
@@ -30,7 +30,7 @@ const MyPokemonList = () => {
                         <Grid container spacing={3}>
                             <Grid item xs={12} sm={12} md={4} align="center">
                                 <img alt={poke.name} src={poke.image} css={css`width:100px`} />
-                                <Typography variant="h2" component="p">{poke.name}</Typography>
+                                <Typography variant="h4" component="p">{poke.name}</Typography>
                             </Grid>
                             <Grid item xs={12} sm={12} md={5}>
                                 <Typography variant="h5" component="p">Names</Typography>

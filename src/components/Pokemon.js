@@ -33,7 +33,7 @@ const Pokemon = (props) => {
                     <Grid item xs={12} sm={10} css={css`@media (max-width: 420px) {
                         text-align: center;
                     }`}>
-                    <Typography variant="h2" component="p">
+                    <Typography variant="h4" component="p">
                         {pokemon.name}
                     </Typography>
                     <Typography variant="h6" component="p" css={css`color: grey;`}>

@@ -36,21 +36,19 @@ const PokemonList = () => {
     });
     
     return (
-        <Container>
+        <Container maxWidth="lg">
           <Link to="/myPokemon" css={css`text-decoration:none;`}><Button align="right" className="menu-button">My Pokemon List</Button></Link>
           <Container css={css`margin-top:30px;`}>
           {
             (loading && <Typography variant="h6" component="p">Retrieving data...</Typography>) ||
             (error && <Typography variant="h6" component="p">Error connect to the the API.</Typography>) ||
             (data && data.pokemons.results.length > 0 && 
-              <Container>
                 <Container css={css`margin-bottom: 70px;`}>
-                {data.pokemons.results.map((poke) => <Pokemon key={poke.name} pokemon={poke}/>)}
+                  {data.pokemons.results.map((poke) => <Pokemon key={poke.name} pokemon={poke}/>)}
+                  <Footer prev={data.pokemons.previous !== undefined && data.pokemons.previous !== null} next={data.pokemons.next !== undefined && data.pokemons.next !== null}/>
                 </Container>
-                <Footer prev={data.pokemons.previous !== undefined && data.pokemons.previous !== null} next={data.pokemons.next !== undefined && data.pokemons.next !== null}/>)
-              </Container>
             )
-        }
+          }
           </Container>
         </Container>
     );
