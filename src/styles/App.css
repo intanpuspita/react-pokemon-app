@@ -5,6 +5,18 @@
   margin-top: 300px;
 }
 
+.remove-button {
+  background-color:red !important;
+  color:white !important;
+  margin-top: 300px;
+}
+
+.menu-button {
+  background-color: #3B4CCA !important;
+  color:white !important;
+  margin-top: 300px;
+}
+
 .form-main-button {
   background-color:#3B4CCA !important;
   color:white !important;

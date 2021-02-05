@@ -1,16 +1,18 @@
 /** @jsxRuntime classic */
 /** @jsx jsx */
-import { css, jsx } from '@emotion/react'
+import { css, jsx } from '@emotion/react';
+import { useAppState } from '../App';
 import {gql, useQuery} from '@apollo/client';
 import Pokemon from './Pokemon';
 import Footer from './Footer';
+import { Link } from 'react-router-dom';
 import {
     Container,
+    Button,
     Typography
 } from '@material-ui/core';
 
 const limit = 5;
-const default_offset = 0;
 const GET_POKEMON_INFO = gql`
 query pokemons($limit: Int, $offset: Int) {
   pokemons(limit: $limit, offset: $offset) {
@@ -27,29 +29,29 @@ query pokemons($limit: Int, $offset: Int) {
   }
 }`
 
-const PokemonList = (props) => {
-    let offset = props.location.state ? (props.location.state.offset ? props.location.state.offset : undefined) : undefined;
-    offset = offset ? offset : default_offset;
-
-    const ownedPokemon = props.location.state ? (props.location.state.ownedPokemon ? props.location.state.ownedPokemon : []) : [];
+const PokemonList = () => {
+    const { state } = useAppState();
     const { data, loading, error } = useQuery(GET_POKEMON_INFO, {
-        variables: { limit, offset }
+        variables: { limit, offset: state.offset }
     });
-
+    
     return (
         <Container>
+          <Link to="/myPokemon" css={css`text-decoration:none;`}><Button align="right" className="menu-button">My Pokemon List</Button></Link>
+          <Container css={css`margin-top:30px;`}>
           {
-              (loading && <Typography variant="h6" component="p">Retrieving data...</Typography>) ||
-              (error && <Typography variant="h6" component="p">Error connect to the the API.</Typography>) ||
-              (data && data.pokemons.results.length > 0 &&
-                <Container>
-                  <Container css={css`margin-bottom: 70px;`}>
-                  {data.pokemons.results.map((poke) => <Pokemon key={poke.name} ownedPokemon={ownedPokemon} pokemon={poke}/>)}
-                  </Container>
-                  <Footer prev={data.pokemons.previous ? offset-limit : undefined} next={data.pokemons.next ? offset+limit : undefined}/>)
+            (loading && <Typography variant="h6" component="p">Retrieving data...</Typography>) ||
+            (error && <Typography variant="h6" component="p">Error connect to the the API.</Typography>) ||
+            (data && data.pokemons.results.length > 0 && 
+              <Container>
+                <Container css={css`margin-bottom: 70px;`}>
+                {data.pokemons.results.map((poke) => <Pokemon key={poke.name} pokemon={poke}/>)}
                 </Container>
-              )
-          }
+                <Footer prev={data.pokemons.previous !== undefined && data.pokemons.previous !== null} next={data.pokemons.next !== undefined && data.pokemons.next !== null}/>)
+              </Container>
+            )
+        }
+          </Container>
         </Container>
     );
 }

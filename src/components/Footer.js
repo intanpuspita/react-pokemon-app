@@ -2,7 +2,7 @@
 /** @jsx jsx */
 import { css, jsx } from '@emotion/react';
 import { makeStyles } from '@material-ui/core/styles';
-import { Link } from 'react-router-dom';
+import { useAppState } from '../App';
 import {
     AppBar,
     Icon,
@@ -19,22 +19,21 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const Footer = (props) => {
+    const { dispatch } = useAppState();
     let { prev, next } = props;
-
     const classes = useStyles();
     return (
         <AppBar position="fixed" color="primary" className={classes.appBar}>
             <Toolbar css={css`margin: auto`}>
-                
-                { prev !== undefined &&
-                    <Link to={{ pathname: '/', state: { offset: (prev ? prev : 0) }}}>
-                        <Icon css={css`margin-right: 200px`}><ArrowBackIos/></Icon>
-                    </Link>
+                { prev !== undefined && prev &&
+                    <Icon css={css`margin-right: 200px; color: black;`} onClick={() => {
+                        dispatch({ type: 'subOffset', offset: 5});
+                    }}><ArrowBackIos/></Icon>
                 }
                 { next && 
-                    <Link to={{ pathname: '/', state: { offset: (next ? next : 0) }}}>
-                        <Icon><ArrowForwardIos/></Icon> 
-                    </Link>
+                    <Icon css={css`color: black;`} onClick={() => {
+                        dispatch({ type: 'addOffset', offset: 5});
+                    }}><ArrowForwardIos/></Icon> 
                 }
             </Toolbar>
         </AppBar>

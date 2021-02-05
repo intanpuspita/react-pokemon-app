@@ -19,7 +19,7 @@ class AppHeader extends React.Component {
                 <Toolbar>
                   <Typography align="center" variant="h6" noWrap
                     css={css`width:100%; color: #CC0000;`}>
-                        My Pokemon Application
+                        Pokemon Application
                   </Typography>
                 </Toolbar>
               </AppBar>

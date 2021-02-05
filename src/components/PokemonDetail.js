@@ -3,7 +3,7 @@ import { useState } from 'react';
 /** @jsx jsx */
 import { css, jsx } from '@emotion/react'
 import {gql, useQuery } from '@apollo/client';
-import { Link } from 'react-router-dom';
+import { useAppState } from '../App';
 import PokemonSpecification from './PokemonSpecification';
 import {
     Grid,
@@ -54,7 +54,7 @@ const handleAddOwnedPokemon = (currentPokemon, ownedPokemon, pokename, e) => {
     if(!nickname) {
         alert('Please input the nickname!');
     } else {
-        let concatName = nickname + ',';
+        let concatName = nickname;
         let newTotal = 1;
         if(currentPokemon.total && currentPokemon.total > 0) {
             const names = currentPokemon.nickname.split(',');
@@ -67,7 +67,7 @@ const handleAddOwnedPokemon = (currentPokemon, ownedPokemon, pokename, e) => {
                     displayForm: true
                 };
             } else {
-                concatName = currentPokemon.nickname ? currentPokemon.nickname + nickname + ',' : nickname + ',';
+                concatName = currentPokemon.nickname ? currentPokemon.nickname + ',' + nickname : nickname;
                 newTotal = currentPokemon.total+1;
             }
         }
@@ -96,13 +96,13 @@ const handleAddOwnedPokemon = (currentPokemon, ownedPokemon, pokename, e) => {
 }
 
 const PokemonDetail = (props) => {
+    const { state, dispatch } = useAppState();
     const { name, img } = props.location.state;
     const { data, loading, error } = useQuery(GET_POKEMON, {
         variables: { name }
     });
 
-    const [ownedPokemonState, setOwnedPokemon] = useState(props.location.state.ownedPokemon);
-    const currentPoke = ownedPokemonState.length > 0 ? (ownedPokemonState.filter((poke) => poke.name === name)) : {};
+    const currentPoke = state.ownedPokemon.length > 0 ? (state.ownedPokemon.filter((poke) => poke.name === name)) : {};
     const [currentPokemon, setCurrentPokemon] = useState(currentPoke.length > 0 ? currentPoke[0] : currentPoke);
     const [displayForm, setDisplayForm] = useState(false);
 
@@ -126,22 +126,19 @@ const PokemonDetail = (props) => {
                           Owned total: {currentPokemon.total ? currentPokemon.total : 0}
                       </Typography>
                       <Grid container spacing={1}>
-                          <Grid item xs={12} sm={12}  md={2}>
-                              <Link to={{ pathname: '/', state: { ownedPokemon: ownedPokemonState } }} css={css`text-decoration:none;`}>
-                                  <Button className="cancel-button">Back</Button>
-                              </Link>
-                          </Grid>
                           <Grid item xs={12} sm={12} md={10}>
-                          
                           {!displayForm &&
                               <Button className="form-main-button" onClick={() => setDisplayForm(catchPokemon())}>Catch the pokemon!</Button>
                           }
                           {displayForm && (
                               <form css={css`display:flex; flex-direction:row;`} onSubmit={(event) => {
-                                    const res = handleAddOwnedPokemon(currentPokemon, ownedPokemonState, name, event);
-                                    setOwnedPokemon(res.ownedPokemon);
-                                    setCurrentPokemon(res.currentPokemon);
-                                    setDisplayForm(res.displayForm);
+                                    let res = handleAddOwnedPokemon(currentPokemon, state.ownedPokemon, name, event);
+                                    if(!res.displayForm) { // success to save
+                                        res.currentPokemon.image = res.currentPokemon.total > 1 ? res.currentPokemon.image : img;
+                                        dispatch({ type: (currentPokemon.name ? 'update' : 'add'), pokemon: res.currentPokemon});
+                                        setCurrentPokemon(res.currentPokemon);
+                                    }
+                                    return setDisplayForm(res.displayForm);
                                   }}>
                                   <Input type="text" name="nickname" placeholder="Put the nickname" css={css`margin-top:20px`}/>
                                   <button className="form-main-button1">Submit</button>

@@ -1,6 +1,7 @@
 /** @jsxRuntime classic */
 /** @jsx jsx */
 import { css, jsx } from '@emotion/react'
+import { useAppState } from '../App';
 import { Link } from 'react-router-dom';
 import {
     Grid,
@@ -12,15 +13,15 @@ import {
 } from '@material-ui/core';
 
 const Pokemon = (props) => {
-    const { ownedPokemon, pokemon } = props;
+    const { state } = useAppState();
+    const { pokemon } = props;
     let owned = 0;
     let getdata = [];
-    if(ownedPokemon.length > 0)
-        getdata = ownedPokemon.filter((poke) => {
+    if(state.ownedPokemon !== undefined && state.ownedPokemon.length > 0)
+        getdata = state.ownedPokemon.filter((poke) => {
             return poke.name === pokemon.name
         });
 
-    
     owned = getdata.length > 0 ? getdata[0].total : owned;
     return (
         <Card css={css`margin-bottom: 20px;`} key={pokemon.name}>
@@ -42,7 +43,7 @@ const Pokemon = (props) => {
                 </Grid>
             </CardContent>
             <CardActions>
-                <Link to={{ pathname: '/detail', state: { name: pokemon.name, img: pokemon.image, ownedPokemon }}} css={css`width:100%; text-decoration:none;`}>
+                <Link to={{ pathname: '/detail', state: { name: pokemon.name, img: pokemon.image }}} css={css`width:100%; text-decoration:none;`}>
                     <Button size="large" className="main-button">More Detail</Button>
                 </Link>
             </CardActions>
