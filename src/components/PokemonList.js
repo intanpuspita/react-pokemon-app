@@ -9,7 +9,7 @@ import {
     Typography
 } from '@material-ui/core';
 
-const limit = 10;
+const limit = 5;
 const default_offset = 0;
 const GET_POKEMON_INFO = gql`
 query pokemons($limit: Int, $offset: Int) {
