@@ -11,8 +11,7 @@ import {
     Table,
     TableBody,
     TableCell,
-    TableRow,
-    Paper
+    TableRow
 } from '@material-ui/core';
 import { useAppState } from '../App';
 
@@ -33,12 +32,12 @@ const MyPokemonList = () => {
                             </Grid>
                             <Grid item xs={12} sm={12} md={5}>
                                 <Typography variant="h5" component="p">Names</Typography>
-                                    <Table component={Paper} css={css`margin-top:20px`}>
+                                    <Table css={css`margin-top:20px`} key={poke.name}>
                                         <TableBody>
                                             {
                                                 poke.nickname.split(',').map((nickname) => {
                                                 return(
-                                                    <TableRow key="name">
+                                                    <TableRow key={nickname}>
                                                         <TableCell>{nickname}</TableCell>
                                                         <TableCell><Button className="remove-button" onClick={() => { 
                                                             dispatch({ type: 'removeNickname', name: poke.name, nickname })
